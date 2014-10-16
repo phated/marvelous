@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Marvelous</title>
+
+  <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/bootstrap-material/css/material.min.css" />
+  <link rel="stylesheet" type="text/css" href="/bootstrap-material/css/ripples.min.css" />
+  <link rel="stylesheet" type="text/css" href="/styles/index.css" />
+</head>
+<body>
+  {{> navbar}}
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-5 col-md-4 col-lg-3">
+        <div class="btn-toolbar">
+          {{> pagination}}
+        </div>
+
+        <div id="event-list" class="list-group">
+        {{#each eventList}}
+          {{> listItem}}
+        {{/each}}
+        </div>
+      </div>
+
+      <div class="col-sm-7 col-md-8 col-lg-9">
+        {{#if event}}
+          {{> eventInfo}}
+        {{else}}
+          {{> home}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  <script>window.data = {{{stringify .}}}</script>
+  <script src="/client.js"></script>
+</body>
+</html>

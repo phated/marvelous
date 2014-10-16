@@ -1,0 +1,13 @@
+.btn-toolbar {
+  margin-bottom: 10px;
+}
+
+.btn-toolbar > .btn,
+.btn-toolbar > .btn-group,
+.btn-toolbar > .input-group {
+  margin-left: 0;
+}
+
+.btn-toolbar .btn {
+  padding: 6px 12px;
+}

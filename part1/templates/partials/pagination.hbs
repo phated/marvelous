@@ -1,0 +1,9 @@
+<div id="pagination" class="btn-group btn-group-justified">
+  {{#each pages}}
+    {{#if active}}
+      <a href="#" data-page="{{@index}}" class="btn btn-danger disabled">{{number}}</a>
+    {{else}}
+      <a href="#" data-page="{{@index}}" class="btn btn-danger">{{number}}</a>
+    {{/if}}
+  {{/each}}
+</div>
