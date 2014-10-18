@@ -15,3 +15,16 @@
 .container-fluid .thumbnail {
   padding: 5px;
 }
+
+.list-group-item.active,
+.list-group-item.active:hover,
+.list-group-item.active:focus {
+  color: #555;
+  background: #F5F5F5;
+}
+
+.list-group-item.active .list-group-item-text,
+.list-group-item.active:hover .list-group-item-text,
+.list-group-item.active:focus .list-group-item-text {
+  color: inherit;
+}
