@@ -1,7 +1,6 @@
 'use strict';
 
 var ready = require('domready');
-var SubCollection = require('ampersand-subcollection');
 
 require('./lib/hbs'); // To register our helpers and partials
 

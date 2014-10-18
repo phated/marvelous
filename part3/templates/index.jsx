@@ -48,7 +48,7 @@ var Index = React.createClass({
             </div>
 
             <div className="col-sm-7 col-md-8 col-lg-9">
-              {this.props.activePage}
+              {router.activePage}
             </div>
           </div>
         </div>
