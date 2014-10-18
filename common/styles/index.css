@@ -11,3 +11,7 @@
 .btn-toolbar .btn {
   padding: 6px 12px;
 }
+
+.container-fluid .thumbnail {
+  padding: 5px;
+}

@@ -26,11 +26,12 @@
     "ampersand-subcollection": "^1.4.4",
     "ampersand-view": "^7.1.4",
     "consolidate": "^0.10.0",
+    "domready": "^1.0.7",
     "handlebars": "^2.0.0",
-    "lodash": "^2.4.1",
+    "lodash": "git://github.com/lodash/lodash#master",
     "mach": "^0.12.0",
     "moment": "^2.8.3",
-    "react": "^0.11.2",
+    "react": "^0.12.0-rc1",
     "rest": "^1.2.0",
     "twix": "^0.5.1",
     "when": "^3.5.0"
@@ -40,6 +41,8 @@
     "gulp": "git://github.com/gulpjs/gulp#4.0",
     "gulp-define-module": "^0.1.1",
     "gulp-handlebars": "^3.0.1",
+    "gulp-react": "git://github.com/phated/gulp-react",
+    "gulp-sourcemaps": "^1.2.4",
     "nodemon": "^1.2.1"
   }
 }
