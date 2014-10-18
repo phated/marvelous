@@ -8,6 +8,7 @@ var mach = require('mach');
 var reach = require('./lib/reach');
 var template = require('./lib/template');
 var construct = require('./lib/construct');
+var renderIndex = require('./lib/renderIndex');
 
 var Events = require('./collections/events');
 var Comics = require('./collections/comics');
@@ -39,10 +40,7 @@ server.get('*', function(request){
     pages: pages
   };
 
-  return keys.all(context)
-    .then(function(context){
-      return template('./templates/index.hbs', context);
-    });
+  return keys.all(context).then(renderIndex);
 });
 
 server.get('/favicon.ico', function(){
