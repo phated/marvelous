@@ -19,7 +19,7 @@ var ListItem = React.createClass({
       <div>
         <a href={event.link} onClick={this.navigate} className="list-group-item">
           <div className="row-picture">
-            <img className="circle" src={event.image} alt="icon" />
+            <img className="circle" src={event.imageSmall} alt="icon" />
           </div>
           <div className="row-content">
             <h4 className="list-group-item-heading">{event.title}</h4>

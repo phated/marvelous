@@ -1,6 +1,6 @@
 'use strict';
 
-var Collection = require('ampersand-collection');
+var Collection = require('./collection');
 
 var Comic = require('../models/comic');
 

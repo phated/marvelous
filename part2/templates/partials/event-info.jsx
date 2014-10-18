@@ -8,17 +8,18 @@ var ComicThumbnail = require('./comic-thumbnail');
 var EventInfo = React.createClass({
 
   render: function(){
-    var event = this.props.event;
+    var {event, comics} = this.props;
 
-    var comicRows = _(this.props.comics.models)
+    var comicRows = comics
+      .chain()
       .chunk(4)
-      .map(function(comicChunk){
-        var comics = comicChunk.map(function(comic){
-          return <ComicThumbnail comic={comic} />
+      .map(function(comicChunk, chunkIdx){
+        var comics = comicChunk.map(function(comic, idx){
+          return <ComicThumbnail key={idx} comic={comic} />
         });
 
         return (
-          <div className="row">
+          <div key={chunkIdx} className="row">
             {comics}
           </div>
         );

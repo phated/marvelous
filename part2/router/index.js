@@ -3,9 +3,9 @@
 var React = require('react');
 var Router = require('ampersand-router');
 
-var Index = React.createFactory(require('../templates/index'));
-var HomeView = React.createFactory(require('../templates/partials/home'));
-var EventInfoView = React.createFactory(require('../templates/partials/event-info'));
+var Index = require('../templates/index');
+var HomeView = require('../templates/partials/home');
+var EventInfoView = require('../templates/partials/event-info');
 
 var Events = require('../collections/events');
 var EventInfo = require('../models/event-info');
@@ -20,10 +20,9 @@ var AppRouter = Router.extend({
   },
 
   home: function(){
-    React.render(Index({
+    React.renderComponent(Index({
       activePage: HomeView(),
       eventList: events,
-      pages: window.data.pages,
       router: router
     }), document.body);
   },
@@ -33,10 +32,9 @@ var AppRouter = Router.extend({
 
     // TODO: move to mixin
     info.on('change', function(){
-      React.render(Index({
+      React.renderComponent(Index({
         activePage: EventInfoView(info),
         eventList: events,
-        pages: window.data.pages,
         router: router
       }), document.body);
     });

@@ -1,5 +1,6 @@
 'use strict';
 
+var when = require('when');
 var rest = require('rest');
 var mime = require('rest/interceptor/mime');
 var State = require('ampersand-state');
@@ -22,22 +23,25 @@ var EventInfo = State.extend({
   },
 
   fetch: function(id){
-    var self = this;
+    var model = this;
+
+    if(model.event && model.event.id === id){
+      return when.resolve(model);
+    }
 
     var opts = {
-      path: '/events/{id}.json',
+      path: 'http://localhost:1337/events/{id}.json',
       params: {
         id: id
       }
     };
 
-    client(opts).entity()
+    return client(opts).entity()
       .then(function(entity){
-        console.log(entity);
-        self.comics.reset(entity.comics);
-        self.set('event', entity.event);
-      })
-      .done();
+        model.comics.reset(entity.comics);
+        model.set('event', entity.event);
+        return model;
+      });
   }
 });
 

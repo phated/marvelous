@@ -4,9 +4,8 @@ var fs = require('fs');
 var path = require('path');
 
 var nodefn = require('when/node');
-var handlebars = require('handlebars');
 
-handlebars.registerHelper('stringify', require('../helpers/stringify'));
+var handlebars = require('./hbs');
 
 function render(context, tmpl){
   return handlebars.compile(tmpl)(context);

@@ -15,6 +15,12 @@ var Event = State.extend({
   },
 
   derived: {
+    imageSmall: {
+      deps: ['thumbnail'],
+      fn: function(){
+        return this.thumbnail.path + '/landscape_small.' + this.thumbnail.extension;
+      }
+    },
     image: {
       deps: ['thumbnail'],
       fn: function(){

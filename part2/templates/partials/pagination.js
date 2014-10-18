@@ -1,3 +1,4 @@
+/** @jsx React.DOM */
 'use strict';
 
 var React = require('react');
@@ -10,11 +11,11 @@ var Pagination = React.createClass({displayName: 'Pagination',
     var $__0=   this.props,pages=$__0.pages,onPage=$__0.onPage;
 
     var links = pages.map(function(page, idx){
-      return React.createElement(PageLink, {onPage: onPage, key: idx, page: page, index: idx})
+      return PageLink({onPage: onPage, key: idx, page: page, index: idx})
     });
 
     return (
-      React.createElement("div", {id: "pagination", className: "btn-group btn-group-justified"}, 
+      React.DOM.div({id: "pagination", className: "btn-group btn-group-justified"}, 
         links
       )
     );

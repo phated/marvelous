@@ -33,7 +33,7 @@
     "lodash": "git://github.com/lodash/lodash#master",
     "mach": "^0.12.0",
     "moment": "^2.8.3",
-    "react": "^0.12.0-rc1",
+    "react": "^0.11.2",
     "rest": "^1.2.0",
     "routes": "^1.2.0",
     "twix": "^0.5.1",
@@ -44,7 +44,7 @@
     "gulp": "git://github.com/gulpjs/gulp#4.0",
     "gulp-define-module": "^0.1.1",
     "gulp-handlebars": "^3.0.1",
-    "gulp-react": "git://github.com/phated/gulp-react",
+    "gulp-react": "^1.0.2",
     "gulp-sourcemaps": "^1.2.4",
     "nodemon": "^1.2.1"
   }

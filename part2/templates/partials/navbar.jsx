@@ -4,6 +4,13 @@ var React = require('react');
 
 var Navbar = React.createClass({
 
+  navigate: function(evt){
+    evt.preventDefault();
+
+    var {router} = this.props;
+    router.navigate('/', { trigger: true });
+  },
+
   render: function(){
     return (
       <div className="navbar navbar-danger">
@@ -13,7 +20,7 @@ var Navbar = React.createClass({
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-          <a className="navbar-brand" href="/">Marvelous</a>
+          <a className="navbar-brand" href="/" onClick={this.navigate}>Marvelous</a>
         </div>
         <div className="navbar-collapse collapse navbar-warning-collapse">
           <form className="navbar-form navbar-right">
