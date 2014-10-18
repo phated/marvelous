@@ -38,7 +38,6 @@ var EventInfo = State.extend({
 
     return client(opts).entity()
       .then(function(entity){
-        console.log('info', entity);
         model.comics.reset(entity.comics);
         model.set('event', entity.event);
         return model;
