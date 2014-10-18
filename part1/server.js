@@ -1,81 +1,22 @@
 'use strict';
 
 var path = require('path');
-var crypto = require('crypto');
 
-var _ = require('lodash');
-var when = require('when');
 var keys = require('when/keys');
 var mach = require('mach');
-var rest = require('rest');
-var mime = require('rest/interceptor/mime');
 
+var reach = require('./lib/reach');
 var template = require('./lib/template');
-
-var server = mach.stack();
-
-var client = rest
-  .wrap(mime, { mime: 'application/json' });
-
-var publicKey = process.env.MARVEL_PUBLIC_KEY;
-var privateKey = process.env.MARVEL_PRIVATE_KEY;
-
-function getResults(entity){
-  return entity.data.results;
-}
-
-function apiRequest(options){
-  var time = Date.now();
-  var hash = crypto.createHash('md5').update(time + privateKey + publicKey).digest('hex');
-
-  var opts = _.merge({
-    params: {
-      ts: time,
-      apikey: publicKey,
-      hash: hash,
-      limit: 20
-    }
-  }, options);
-
-  return client(opts);
-}
-
-function getEvents(){
-  return apiRequest({
-    path: 'http://gateway.marvel.com/v1/public/events',
-    params: {
-      limit: 100
-    }
-  }).entity();
-}
-
-function getEvent(id){
-  return apiRequest({
-    path: 'http://gateway.marvel.com/v1/public/events/{id}',
-    params: {
-      id: id
-    }
-  }).entity().tap(console.log);
-}
-
-function getComics(item){
-  return apiRequest({ path: item.comics.collectionURI }).entity();
-}
+var construct = require('./lib/construct');
 
 var Events = require('./collections/events');
+var Comics = require('./collections/comics');
 
-function makeEventList(results){
-  return new Events(results);
-}
+var getEvent = require('./lib/getEvent');
+var getEvents = require('./lib/getEvents');
+var getComics = require('./lib/getComics');
 
-function paginate(results){
-  return _.times(Math.ceil(results.length / 10), function(idx){
-    return {
-      number: idx + 1,
-      active: (idx === 0) // first is always active on server render
-    };
-  });
-}
+var server = mach.stack();
 
 server.use(mach.file, {
   root: path.join(__dirname, '../common/'),
@@ -89,12 +30,13 @@ server.use(mach.file, {
   useEtag: true
 });
 
-server.get('/*', function(request){
-  var events = getEvents().then(getResults);
+server.get('*', function(request){
+  var events = getEvents().fold(reach, 'data.results').fold(construct, Events);
+  var pages = events.fold(reach, 'getPages');
 
   var context = {
-    eventList: events.then(makeEventList),
-    pages: events.then(paginate)
+    eventList: events,
+    pages: pages
   };
 
   return keys.all(context)
@@ -103,12 +45,17 @@ server.get('/*', function(request){
     });
 });
 
+server.get('/favicon.ico', function(){
+  return 404;
+});
+
 server.get('/events/:id.json', function(request){
-  var event = getEvent(request.params.id).then(getResults).then(_.first);
+  var event = getEvent(request.params.id).fold(reach, 'data.results.0');
+  var comics = event.then(getComics).fold(reach, 'data.results').fold(construct, Comics);
 
   var context = {
     event: event,
-    comics: event.then(getComics).then(getResults)
+    comics: comics
   };
 
   return keys.all(context).then(mach.json);

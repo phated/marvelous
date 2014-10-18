@@ -3,7 +3,7 @@
 var _ = require('lodash');
 
 function eachRow(collection, rowLength, options){
-  return _.reduce(collection, function(result, item, idx){
+  return collection.reduce(function(result, item, idx){
     if(idx % rowLength === 0){
       if(idx === 0){
         return (result + '<div class="row">' + options.fn(item));

@@ -15,28 +15,14 @@ var Pagination = View.extend({
   page: function(evt){
     evt.preventDefault();
 
-    var subcollection = this.collection;
-
-    subcollection.configure({
-      offset: Number(evt.target.getAttribute('data-page')) * subcollection.limit
-    });
+    this.collection.setPage(Number(evt.target.getAttribute('data-page')));
 
     this.render();
   },
 
   render: function(){
-    var subcollection = this.collection;
-
-    // the underlying collection of the subcollection
-    var pages = _.times(Math.ceil(subcollection.collection.length / 10), function(idx){
-      return {
-        number: idx + 1,
-        active: (idx * subcollection.limit === subcollection.offset)
-      };
-    });
-
     this.renderWithTemplate({
-      pages: pages
+      pages: this.collection.getPages()
     });
 
     return this;

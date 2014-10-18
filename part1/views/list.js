@@ -4,7 +4,7 @@ var View = require('ampersand-view');
 
 var router = require('../router');
 
-var listItem = require('../build/templates/listItem');
+var listItem = require('../build/templates/list-item');
 
 var ListItem = View.extend({
   template: listItem,
@@ -29,7 +29,7 @@ var List = View.extend({
 
   render: function(){
     this.renderWithTemplate();
-    this.renderCollection(this.collection, ListItem);
+    this.renderCollection(this.collection.getActivePage(), ListItem);
     return this;
   }
 });

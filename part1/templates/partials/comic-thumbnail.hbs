@@ -1,0 +1,19 @@
+<div class="thumbnail well">
+  <img src="{{image}}" class="img-rounded img-responsive" />
+
+  <div class="caption">
+    <h4>{{title}}</h4>
+    <div>Prices:</div>
+    {{#each prices.models}}
+    <div>
+      {{name}}: ${{price}}
+    </div>
+    {{/each}}
+
+    {{#if purchaseUrl}}
+      <a href={{purchaseUrl}} class="btn btn-danger btn-block">Buy Now</a>
+    {{else}}
+      <button disabled class="btn btn-danger btn-block">Nope</button>
+    {{/if}}
+  </div>
+</div>

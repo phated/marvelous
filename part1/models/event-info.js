@@ -1,17 +1,21 @@
 'use strict';
 
+var when = require('when');
 var rest = require('rest');
 var mime = require('rest/interceptor/mime');
 var State = require('ampersand-state');
 
 var Event = require('./event');
 
+var Comics = require('../collections/comics');
+
 var client = rest
   .wrap(mime, { mime: 'application/json' });
 
 var EventInfo = State.extend({
-  props: {
-    comics: 'array'
+
+  collections: {
+    comics: Comics
   },
 
   children: {
@@ -19,22 +23,24 @@ var EventInfo = State.extend({
   },
 
   fetch: function(id){
-    var self = this;
+    var model = this;
+
+    if(model.event && model.event.id === id){
+      return when.resolve(model);
+    }
 
     var opts = {
-      path: '/events/{id}.json',
+      path: 'http://localhost:1337/events/{id}.json',
       params: {
         id: id
       }
     };
 
-    client(opts).entity()
+    return client(opts).entity()
       .then(function(entity){
-        console.log(entity);
-        self.set(entity);
-      })
-      .catch(function(err){
-        console.log(err);
+        model.comics.reset(entity.comics);
+        model.set('event', entity.event);
+        return model;
       });
   }
 });

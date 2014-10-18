@@ -1,39 +1,42 @@
 'use strict';
 
+var ready = require('domready');
 var SubCollection = require('ampersand-subcollection');
 
-var handlebars = require('handlebars');
-// register handlebars helpers
-handlebars.registerHelper('eachRow', require('./helpers/eachRow'));
-handlebars.registerHelper('dateRange', require('./helpers/dateRange'));
-handlebars.registerHelper('priceType', require('./helpers/priceType'));
-handlebars.registerHelper('stringify', require('./helpers/stringify'));
-handlebars.registerHelper('hasPurchaseUrl', require('./helpers/hasPurchaseUrl'));
-// register handlebars partials
-handlebars.registerPartial('comicThumbnail', require('./build/templates/comicThumbnail'));
+require('./lib/hbs'); // To register our helpers and partials
 
 var ListView = require('./views/list');
+var NavbarView = require('./views/navbar');
 var PaginationView = require('./views/pagination');
 
 var Events = require('./collections/events');
 
+var router = require('./router');
+
 var events = new Events(window.data.eventList);
 
-var eventsSubcollection = new SubCollection(events, {
-  limit: 10,
-  offset: 0
+ready(function(){
+  var navbar = new NavbarView({
+    el: document.querySelector('nav')
+  });
+
+  navbar.render();
+
+  var pagination = new PaginationView({
+    el: document.querySelector('#pagination'),
+    collection: events
+  });
+
+  pagination.render();
+
+  var list = new ListView({
+    el: document.querySelector('#event-list'),
+    collection: events
+  });
+
+  list.render();
+
+  router.history.start({
+    pushState: true
+  });
 });
-
-var pagination = new PaginationView({
-  el: document.querySelector('#pagination'),
-  collection: eventsSubcollection
-});
-
-pagination.render();
-
-var list = new ListView({
-  el: document.querySelector('#event-list'),
-  collection: eventsSubcollection
-});
-
-list.render();
