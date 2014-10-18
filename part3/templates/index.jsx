@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react');
-var SubCollection = require('ampersand-subcollection');
 
 var Navbar = require('./partials/navbar');
 var ListItem = require('./partials/list-item');
@@ -11,36 +10,22 @@ var Index = React.createClass({
 
   getInitialState: function(){
     return {
-      pagination: {
-        limit: 10,
-        offset: 0
-      },
-      pages: this.props.pages
+      page: 0
     };
   },
 
   page: function(idx){
-    var {pages} = this.state;
-
+    this.props.eventList.setPage(idx);
     this.setState({
-      pagination: {
-        limit: 10,
-        offset: idx * 10
-      },
-      pages: pages.map(function(page, pageIdx){
-        return {
-          number: page.number,
-          active: (pageIdx === idx)
-        };
-      })
+      page: idx // to trigger re-render
     });
   },
 
   render: function(){
-    var {router} = this.props;
-    var {pages} = this.state;
+    var {router, eventList} = this.props;
 
-    var list = new SubCollection(this.props.eventList, this.state.pagination);
+    var list = eventList.getActivePage();
+    var pages = eventList.getPages();
 
     var listItems = list.map(function(event){
       return <ListItem key={event.id} event={event} router={router} />

@@ -1,98 +1,25 @@
 'use strict';
 
 var path = require('path');
-var crypto = require('crypto');
 
-var _ = require('lodash');
-var when = require('when');
 var keys = require('when/keys');
 var mach = require('mach');
-var rest = require('rest');
-var mime = require('rest/interceptor/mime');
-var React = require('react');
 
+var reach = require('./lib/reach');
 var template = require('./lib/template');
+var construct = require('./lib/construct');
+var renderIndex = require('./lib/renderIndex');
 
-var Index = React.createFactory(require('./templates/index'));
+var Events = require('./collections/events');
+var Comics = require('./collections/comics');
+
+var getEvent = require('./lib/getEvent');
+var getEvents = require('./lib/getEvents');
+var getComics = require('./lib/getComics');
 
 var createRouter = require('./router');
 
 var server = mach.stack();
-
-var client = rest
-  .wrap(mime, { mime: 'application/json' });
-
-var publicKey = process.env.MARVEL_PUBLIC_KEY;
-var privateKey = process.env.MARVEL_PRIVATE_KEY;
-
-function getResults(entity){
-  return entity.data.results;
-}
-
-function apiRequest(options){
-  var time = Date.now();
-  var hash = crypto.createHash('md5').update(time + privateKey + publicKey).digest('hex');
-
-  var opts = _.merge({
-    params: {
-      ts: time,
-      apikey: publicKey,
-      hash: hash,
-      limit: 20
-    }
-  }, options);
-
-  return client(opts);
-}
-
-function getEvents(){
-  return apiRequest({
-    path: 'http://gateway.marvel.com/v1/public/events',
-    params: {
-      limit: 100
-    }
-  }).entity();
-}
-
-function getEvent(id){
-  return apiRequest({
-    path: 'http://gateway.marvel.com/v1/public/events/{id}',
-    params: {
-      id: id
-    }
-  }).entity();
-}
-
-function getComics(item){
-  return apiRequest({ path: item.comics.collectionURI }).entity();
-}
-
-var Event = require('./models/event');
-
-function makeEvent(result){
-  return new Event(result);
-}
-
-var Events = require('./collections/events');
-
-function makeEventList(results){
-  return new Events(results);
-}
-
-var Comics = require('./collections/comics');
-
-function makeComicList(results){
-  return new Comics(results);
-}
-
-function paginate(results){
-  return _.times(Math.ceil(results.length / 10), function(idx){
-    return {
-      number: idx + 1,
-      active: (idx === 0) // first is always active on server render
-    };
-  });
-}
 
 server.use(mach.file, {
   root: path.join(__dirname, '../common/'),
@@ -107,33 +34,30 @@ server.use(mach.file, {
 });
 
 server.get('*', function(request){
-  var events = getEvents().then(getResults);
+  var events = getEvents().fold(reach, 'data.results').fold(construct, Events);
 
   var router = createRouter();
   router.navigate(request.params.splat);
 
   var context = {
-    eventList: events.then(makeEventList),
-    pages: events.then(paginate),
+    eventList: events,
     router: router
   };
 
-  return keys.all(context)
-    .then(function(context){
-      context.activePage = router.activePage;
-      return template('./templates/index.hbs', {
-        body: React.renderToString(Index(context)),
-        state: context
-      });
-    });
+  return keys.all(context).then(renderIndex);
+});
+
+server.get('/favicon.ico', function(){
+  return 404;
 });
 
 server.get('/events/:id.json', function(request){
-  var event = getEvent(request.params.id).then(getResults).then(_.first);
+  var event = getEvent(request.params.id).fold(reach, 'data.results.0');
+  var comics = event.then(getComics).fold(reach, 'data.results').fold(construct, Comics);
 
   var context = {
-    event: event.then(makeEvent),
-    comics: event.then(getComics).then(getResults).then(makeComicList)
+    event: event,
+    comics: comics
   };
 
   return keys.all(context).then(mach.json);

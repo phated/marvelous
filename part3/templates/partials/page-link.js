@@ -1,3 +1,4 @@
+/** @jsx React.DOM */
 'use strict';
 
 var React = require('react/addons');
@@ -24,7 +25,7 @@ var PageLink = React.createClass({displayName: 'PageLink',
     });
 
     return (
-      React.createElement("a", {href: "#", onClick: this.page, className: classes}, page.number)
+      React.DOM.a({href: "#", onClick: this.page, className: classes}, page.number)
     );
   }
 });

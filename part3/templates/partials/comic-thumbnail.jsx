@@ -8,9 +8,9 @@ var ComicThumbnail = React.createClass({
   render: function(){
     var comic = this.props.comic;
 
-    var prices = comic.prices.map(function(price){
+    var prices = comic.prices.map(function(price, idx){
       return (
-        <div>
+        <div key={idx}>
           {price.name}: ${price.price}
         </div>
       );

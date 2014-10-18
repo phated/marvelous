@@ -1,3 +1,4 @@
+/** @jsx React.DOM */
 'use strict';
 
 var React = require('react');
@@ -13,18 +14,18 @@ var Navbar = React.createClass({displayName: 'Navbar',
 
   render: function(){
     return (
-      React.createElement("div", {className: "navbar navbar-danger"}, 
-        React.createElement("div", {className: "navbar-header"}, 
-          React.createElement("button", {type: "button", className: "navbar-toggle", 'data-toggle': "collapse", 'data-target': ".navbar-warning-collapse"}, 
-            React.createElement("span", {className: "icon-bar"}), 
-            React.createElement("span", {className: "icon-bar"}), 
-            React.createElement("span", {className: "icon-bar"})
+      React.DOM.div({className: "navbar navbar-danger"}, 
+        React.DOM.div({className: "navbar-header"}, 
+          React.DOM.button({type: "button", className: "navbar-toggle", 'data-toggle': "collapse", 'data-target': ".navbar-warning-collapse"}, 
+            React.DOM.span({className: "icon-bar"}), 
+            React.DOM.span({className: "icon-bar"}), 
+            React.DOM.span({className: "icon-bar"})
           ), 
-          React.createElement("a", {className: "navbar-brand", href: "/", onClick: this.navigate}, "Marvelous")
+          React.DOM.a({className: "navbar-brand", href: "/", onClick: this.navigate}, "Marvelous")
         ), 
-        React.createElement("div", {className: "navbar-collapse collapse navbar-warning-collapse"}, 
-          React.createElement("form", {className: "navbar-form navbar-right"}, 
-            React.createElement("input", {type: "text", className: "form-control col-lg-8", placeholder: "Search"})
+        React.DOM.div({className: "navbar-collapse collapse navbar-warning-collapse"}, 
+          React.DOM.form({className: "navbar-form navbar-right"}, 
+            React.DOM.input({type: "text", className: "form-control col-lg-8", placeholder: "Search"})
           )
         )
       )

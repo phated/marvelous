@@ -1,3 +1,4 @@
+/** @jsx React.DOM */
 'use strict';
 
 var React = require('react');
@@ -6,14 +7,14 @@ var Home = React.createClass({displayName: 'Home',
 
   render: function(){
     return (
-      React.createElement("div", null, 
-        React.createElement("div", {className: "col-md-5 col-lg-4"}, 
-          React.createElement("img", {src: "{{thumbnail.path}}/detail.{{thumbnail.extension}}", className: "img-rounded img-responsive"})
+      React.DOM.div(null, 
+        React.DOM.div({className: "col-md-5 col-lg-4"}, 
+          React.DOM.img({src: "{{thumbnail.path}}/detail.{{thumbnail.extension}}", className: "img-rounded img-responsive"})
         ), 
 
-        React.createElement("div", {className: "col-md-7 col-lg-8"}, 
-          React.createElement("h1", null, "Welcome to Marvelous"), 
-          React.createElement("p", null, "We handle all your Marvel event needs.")
+        React.DOM.div({className: "col-md-7 col-lg-8"}, 
+          React.DOM.h1(null, "Welcome to Marvelous"), 
+          React.DOM.p(null, "We handle all your Marvel event needs.")
         )
       )
     );

@@ -3,7 +3,7 @@
 var React = require('react');
 var ready = require('domready');
 
-var Index = React.createFactory(require('./templates/index'));
+var Index = require('./templates/index');
 
 var createRouter = require('./router');
 
@@ -15,7 +15,7 @@ ready(function(){
   var router = createRouter();
 
   function render(){
-    React.render(Index({
+    React.renderComponent(Index({
       activePage: router.activePage,
       eventList: events,
       pages: window.data.pages,

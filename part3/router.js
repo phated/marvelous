@@ -2,8 +2,8 @@
 
 var React = require('react');
 
-var HomeView = React.createFactory(require('./templates/partials/home'));
-var EventInfoView = React.createFactory(require('./templates/partials/event-info'));
+var HomeView = require('./templates/partials/home');
+var EventInfoView = require('./templates/partials/event-info');
 
 var EventInfo = require('./models/event-info');
 

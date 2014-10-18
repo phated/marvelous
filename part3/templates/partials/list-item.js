@@ -1,3 +1,4 @@
+/** @jsx React.DOM */
 'use strict';
 
 var React = require('react');
@@ -16,17 +17,17 @@ var ListItem = React.createClass({displayName: 'ListItem',
     var $__0=  this.props,event=$__0.event;
 
     return (
-      React.createElement("div", null, 
-        React.createElement("a", {href: event.link, onClick: this.navigate, className: "list-group-item"}, 
-          React.createElement("div", {className: "row-picture"}, 
-            React.createElement("img", {className: "circle", src: event.image, alt: "icon"})
+      React.DOM.div(null, 
+        React.DOM.a({href: event.link, onClick: this.navigate, className: "list-group-item"}, 
+          React.DOM.div({className: "row-picture"}, 
+            React.DOM.img({className: "circle", src: event.image, alt: "icon"})
           ), 
-          React.createElement("div", {className: "row-content"}, 
-            React.createElement("h4", {className: "list-group-item-heading"}, event.title), 
-            React.createElement("p", {className: "list-group-item-text"}, event.dateRange)
+          React.DOM.div({className: "row-content"}, 
+            React.DOM.h4({className: "list-group-item-heading"}, event.title), 
+            React.DOM.p({className: "list-group-item-text"}, event.dateRange)
           )
         ), 
-        React.createElement("div", {className: "list-group-separator"})
+        React.DOM.div({className: "list-group-separator"})
       )
     );
   }
